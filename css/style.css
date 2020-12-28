@@ -1101,7 +1101,7 @@ button {
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-  background: url("/images/bg.jpg") center center/cover no-repeat;
+  background: url("../images/bg.jpg") center center/cover no-repeat;
 }
 .first-screen-container .content {
   position: relative;
