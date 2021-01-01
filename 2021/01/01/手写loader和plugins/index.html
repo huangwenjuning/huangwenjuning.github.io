@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <title>
-        Hello World |
+        手写 loader |
         
         Single-Minded&#39;s Blog
     </title>
@@ -127,7 +127,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">手写 loader</span>
         </div>
 
         
@@ -143,20 +143,42 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-calendar"></i> 2020-12-29 11:26:03
+        <i class="fas fa-calendar"></i> 2021-01-01 14:09:21
     </span>
     
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/single-minded/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/single-minded/tags/Webpack/">Webpack</a>
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i> <span>75 字</span>
+            <i class="fas fa-file-word"></i> <span>793 字</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i> <span>1 分钟</span>
+            <i class="fas fa-clock"></i> <span>3 分钟</span>
         </span>
     
     
@@ -172,15 +194,30 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p>大纲：</p>
+<p>   什么是 loader<br>   loader 编写规范<br>   简易实现 style-loader</p>
+<h2 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h2><h3 id="什么是-loader"><a href="#什么是-loader" class="headerlink" title="什么是 loader"></a>什么是 loader</h3><p>loader 为 webpack 提供了解析除 JavaScript 以外语言的能力。<br>loader 类似于转换器，它能将依赖文件的内容转换成js module，用于 webpack 的解析。</p>
+<p>下面就是一个 css 文件经过 css-loader 处理之后生成的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Imports</span><br><span class="line">import ___CSS_LOADER_API_IMPORT___ from &quot;..&#x2F;node_modules&#x2F;css-loader&#x2F;dist&#x2F;runtime&#x2F;api.js&quot;;</span><br><span class="line">var ___CSS_LOADER_EXPORT___ &#x3D; ___CSS_LOADER_API_IMPORT___(function(i)&#123;return i[1]&#125;);</span><br><span class="line">&#x2F;&#x2F; Module</span><br><span class="line">___CSS_LOADER_EXPORT___.push([module.id, &quot;body &#123;\n    color: red;\n&#125;\n\n.demo &#123;\n    width: 200px;\n    height: 200px;\n    background: peachpuff;\n    border: 1px solid grey;\n&#125;&quot;, &quot;&quot;]);</span><br><span class="line">&#x2F;&#x2F; Exports</span><br><span class="line">export default ___CSS_LOADER_EXPORT___;</span><br></pre></td></tr></table></figure>
+
+<p>实际上，执行上述文件之后，最终拿到的就是：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[module.id, &quot;body &#123;\n    color: red;\n&#125;\n\n.demo &#123;\n    width: 200px;\n    height: 200px;\n    background: peachpuff;\n    border: 1px solid grey;\n&#125;&quot;, &quot;&quot;]</span><br></pre></td></tr></table></figure></code></pre>
+<h3 id="loader-编写的一些规范"><a href="#loader-编写的一些规范" class="headerlink" title="loader 编写的一些规范"></a>loader 编写的一些规范</h3><p>loader 是导出为一个函数的 node 模块。该函数接收一个参数，该参数是文件资源内容。</p>
+<p>我们都知道，在项目中处理样式时，需要配置 css-loader、style-loader，才能成功渲染样式。<br>我们还知道 loader 配置时，loader的读取顺序是从下往上或者从右往左的。</p>
+<ul>
+<li>loader 可以链式调用，它按照从右到左的顺序依次调用。<br>第一个 loader 接收到的参数就是当前依赖文件的内容，之后的loader 接收到的参数就是上一个 loader 处理之后的返回值，最后一个 loader 返回值必须是 JavaScript。</li>
+<li>loader 的编写遵循单一原则，一个 loader 只做一件事情。这使得 loader 易于维护，也更容易复用到其他场景下，进行组合使用。</li>
+<li>进行模块化的输出，loader 输出的内容一般都是一个 js module</li>
+</ul>
+<h3 id="style-loader-简易实现"><a href="#style-loader-简易实现" class="headerlink" title="style-loader 简易实现"></a>style-loader 简易实现</h3><p>基本配置，引入自定义loader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">resolveLoader: &#123;</span><br><span class="line">    &#x2F;&#x2F; 指定读取 loader 的文件�夹路径</span><br><span class="line">    modules: [&#39;.&#x2F;node_modules&#x2F;&#39;, &#39;.&#x2F;wLoaders&#x2F;&#39;],</span><br><span class="line">&#125;,</span><br><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: &#x2F;\.css$&#x2F;,</span><br><span class="line">            use: [&#39;w-style-loader&#39;, &#39;css-loader&#39;],</span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>css-loader 作用：<br>css-loader 用于解析 css 文件内容，css-loader 解释(interpret) @import 和 url() 时，会 import/require() 后再解析(resolve)它们。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">background: url(&#39;.&#x2F;images&#x2F;bg.jpg&#39;);</span><br><span class="line">&#x2F;&#x2F; &#x3D;&#x3D;&gt; 会转换为</span><br><span class="line">background: url(&quot; + ___CSS_LOADER_URL_REPLACEMENT_0___ + &quot;);\n&#125;</span><br><span class="line">&#x2F;&#x2F; ___CSS_LOADER_URL_REPLACEMENT_0___就是 css-loader 内部经过一系列工具方法，转换出来的文件地址</span><br></pre></td></tr></table></figure>
+<p>style-loader 作用：<br>style-loader 用于将 css 挂载到 DOM 的 style 标签上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils &#x3D; require(&#39;loader-utils&#39;);</span><br><span class="line"></span><br><span class="line">function loader (content) &#123;</span><br><span class="line">    return &#96;</span><br><span class="line">        var style &#x3D; document.createElement(&quot;style&quot;);</span><br><span class="line">        style.innerHTML &#x3D; $&#123;JSON.stringify(content)&#125;;</span><br><span class="line">        document.head.appendChild(style);</span><br><span class="line">    &#96;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 默认的 loader 都是从右向左执行，用 pitching loader 是从左到右执行的。也就是我们是先执行style-loader，在它里面再执行 css-loader。</span><br><span class="line">loader.pitch &#x3D; function (request) &#123;</span><br><span class="line">    let str &#x3D; &#96;</span><br><span class="line">        const content &#x3D; require($&#123;loaderUtils.stringifyRequest(this, &#39;!!&#39; + request)&#125;);</span><br><span class="line">        let style &#x3D; document.createElement(&#39;style&#39;);</span><br><span class="line">        style.innerHTML &#x3D; content;</span><br><span class="line">        document.head.appendChild(style);</span><br><span class="line">    &#96;;</span><br><span class="line">    return str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; loader;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.webpackjs.com/api/loaders/#%E8%B6%8A%E8%BF%87-loader-pitching-loader" >pitching loader官网解释<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/huangwenjuning/offer-coming-soon/tree/master/webpack/02" >代码地址<i class="fas fa-external-link-alt"></i></a></p>
+<p>理解还比较稚嫩，若有不对或不当之处，望海涵，若能提出并指导一下，感激不尽^_^</p>
 
         </div>
 
@@ -188,11 +225,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>本文标题：Hello World</li>
+        <li>本文标题：手写 loader</li>
         <li>本文作者：无骛</li>
-        <li>创建时间：2020-12-29 11:26:03</li>
+        <li>创建时间：2021-01-01 14:09:21</li>
         <li>
-            本文链接：/single-minded/2020/12/29/hello-world/
+            本文链接：/single-minded/2021/01/01/手写loader和plugins/
         </li>
         <li>
             版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -206,21 +243,21 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/single-minded/2020/12/29/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB%E6%89%8B%E6%AE%B5%E5%8F%8A%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD/"
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/single-minded/2020/12/30/webpack%E5%9F%BA%E7%A1%80/"
                         >
-                            <span class="left arrow-icon flex-center" >
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">常见web攻击手段及防御措施</span>
-                                <span class="post-nav-item">上一篇</span>
+                                <span class="post-nav-title-item">webpack 基础</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center" >
+                              <i class="fas fa-chevron-right"></i>
                             </span>
                         </a>
                     </div>
-                
                 
             </div>
         
@@ -372,7 +409,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Loader"><span class="nav-number">1.</span> <span class="nav-text">Loader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-loader"><span class="nav-number">1.1.</span> <span class="nav-text">什么是 loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loader-%E7%BC%96%E5%86%99%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%84%E8%8C%83"><span class="nav-number">1.2.</span> <span class="nav-text">loader 编写的一些规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#style-loader-%E7%AE%80%E6%98%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">style-loader 简易实现</span></a></li></ol></li></ol>
     </div>
 </div>
         
