@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+        实现一个redux |
+        
+        Single-Minded&#39;s Blog
+    </title>
+    <link rel="shortcut icon" href="/single-minded/images/logo.svg">
+    
+<link rel="stylesheet" href="/single-minded/css/style.css">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"agangxuezhang.cn","root":"/single-minded/"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.png","favicon":"/images/logo.svg","img_position":"left","left_side_width":"260px","content_max_width":"900px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"../images/bg.jpg","description":"她呀，脸爱红。"}},"local_search":{"enable":false,"trigger":"auto","unescape":false,"preload":false},"version":"3.0.4"};
+    KEEP.language = {"search":"Search...","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"Powered by %s","theme":"Theme","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","tagcloud":"Tag Cloud","comment":"Comment","home":"Home","archive":"Archive","archives":"Archives","about":"About","site_uv":"Visitor Count","site_pv":"Totalview","links":"Links","link":"Link","top":"TOP","read_more":"Read more","wordcount":"Words","min2read":"Mins","changelog":"Changelog","copyright":{"author":"Post author","title":"Post title","link":"Post link","create_time":"Create time","license_title":"Copyright Notice","license_content":"All articles in this blog are licensed under %s unless stating additionally."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"}};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+        <a class="logo-title" href="/single-minded/">
+            Single-Minded&#39;s Blog
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/"
+                    >
+                        HOME
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/categories"
+                    >
+                        CATEGORIES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/tags"
+                    >
+                        TAGS
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/categories">CATEGORIES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/tags">TAGS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">实现一个redux</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/single-minded/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>无骛</span>
+                        <span class="level">Lv1</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-calendar"></i> 2021-01-03 19:55:02
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/single-minded/categories/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/">前端框架</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/single-minded/tags/Redux/">Redux</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i> <span>1.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i> <span>5 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i> <span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>大纲<br>1、store、state、action、store.dispatch、reducer的概念<br>2、redux 单向数据流流程说明<br>3、实现一个 redux<br>4、中间件日志打印及异步调用实现</p>
+<p>代码地址： <a class="link"   target="_blank" rel="noopener" href="https://github.com/huangwenjuning/offer-coming-soon/tree/master/redux" >https://github.com/huangwenjuning/offer-coming-soon/tree/master/redux<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ul>
+<li><p>store<br>  整个项目只能有一个 store，store 可以看做是一个数据容器， 用于保存数据。<br>  redux 提供了 createStore 方法用于生成 store。</p>
+</li>
+<li><p>state<br>  state 表示的是当前时刻的数据。<br>  redux 提供了 getState 方法用于获取当前时刻的数据集合。</p>
+</li>
+<li><p>action<br>  action 表示的是当前要发生改变。即 view 层发出通知，表示 state 将要以某种规则发生变化。<br>  action 是一个对象，它具有 type 和 payload 的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const action &#x3D; &#123;</span><br><span class="line">    type: &#39;ADD_TODO&#39;,</span><br><span class="line">    payload: &#39;Learn&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>store.dispatch<br>store.dispatch 是 view 分发 action 的唯一方法，它接收一个 action。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch(&#123;</span><br><span class="line">    type: &#39;ADD_TODO&#39;,</span><br><span class="line">    palyload: &#39;Learn&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>reducer<br>  store 接收到 action 后，必须返回一个新的 state， 这样 view 才会发生更新，这种 state 的计算过程就是 reducer。</p>
+<p>  Reducer 是一个纯函数，它接收旧的 state 和 action 为参数，并返回一个新的 state。<br>  只要传入的参数相同，那么得到结果也必定相同。因此保持 reducer 纯净非常重要。<br>  我们不应该在 reducer 中做这些具有副作用的操作:</p>
+<pre><code>  (1)修改传⼊参数;
+  (2)执⾏有副作⽤的操作，如 API 请求;    
+  (3)调⽤非纯函数，如 Date.now() 或 Math.random()。</code></pre>
+</li>
+</ul>
+<h2 id="redux-工作流程"><a href="#redux-工作流程" class="headerlink" title="redux 工作流程"></a>redux 工作流程</h2><p><img src="https://cdn.jsdelivr.net/gh/huangwenjuning/single-minded-images@master/redux/redux%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="redux流程图"><br>我们简述一下 redux 完成一次数据更新的过程：</p>
+<p>A. 首先，用户通过操作发出 Action ——&gt; store.dispatch<br>B. store 会自动调用 reducer 方法，并传入当前 action 与 state，reducer 经过预定数据处理之后，会返回一个新的 state。 ——&gt; reducer(action, state)<br>C. state 发生变化，store 调用监听函数。 ——&gt; store.subscribe()</p>
+<h2 id="实现redux"><a href="#实现redux" class="headerlink" title="实现redux"></a>实现redux</h2><p>redux 提供了以下几个 api 我们先了解一下：</p>
+<ul>
+<li><p>createStore: 用于创建一个 store</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const store &#x3D; createStore(reducer);</span><br></pre></td></tr></table></figure></li>
+<li><p>reducer: 用于数据的初始化以及变更数据状态的函数</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const reducer &#x3D; (&#123; state, action &#125;) &#x3D;&gt; &#123;</span><br><span class="line">    switch(action.type) &#123;</span><br><span class="line">        case &#39;ADD&#39;:</span><br><span class="line">          return state+1;</span><br><span class="line">        case &#39;MINUS&#39;:</span><br><span class="line">          return state-1;</span><br><span class="line">        case &#39;AsyncAdd&#39;:</span><br><span class="line">          return state+1;</span><br><span class="line">        default:</span><br><span class="line">          return 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>getState(): 用于获取当前时刻的 state 数据</p>
+</li>
+<li><p>dispatch(): 用于分发 action</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch(&#123;type: &#39;ADD&#39;&#125;);</span><br></pre></td></tr></table></figure></li>
+<li><p>subscribe(): 用于数据订阅，数据更新时调用执行</p>
+</li>
+</ul>
+<h3 id="createStore-js"><a href="#createStore-js" class="headerlink" title="createStore.js"></a>createStore.js</h3><p>我们创建一个 createStore 方法，该方法会返回 getState、dispatch 和 subscibe() 方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">const createStore &#x3D; (reducer, enhancer) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 当前数据</span><br><span class="line">  let state;</span><br><span class="line">  &#x2F;&#x2F; 进行依赖收集（订阅者）</span><br><span class="line">  let listeners &#x3D; [];</span><br><span class="line">  </span><br><span class="line">  if (enhancer) &#123;</span><br><span class="line">    &#x2F;&#x2F; 中间件，对 dispatch 的增强过程</span><br><span class="line">    return enhancer(createStore)(reducer);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 获取当前的数据</span><br><span class="line">  const getState &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">    return state;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 进行订阅和退订</span><br><span class="line">  const subscribe &#x3D; (listener) &#x3D;&gt; &#123;</span><br><span class="line">    listeners.push(listener);</span><br><span class="line">    return () &#x3D;&gt; &#123;</span><br><span class="line">      listeners.filter((item) &#x3D;&gt; item !&#x3D;&#x3D; listener);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 分发 action</span><br><span class="line">  const dispatch &#x3D; (action) &#x3D;&gt; &#123;</span><br><span class="line">    state &#x3D; reducer(&#123; action, state &#125;);</span><br><span class="line">    &#x2F;&#x2F; state 更新，通知订阅者</span><br><span class="line">    listeners.forEach((listener) &#x3D;&gt; listener());</span><br><span class="line">    return action;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 手动执行一次，用于初始化</span><br><span class="line">  dispatch(&#123;&#125;);</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    getState,</span><br><span class="line">    subscribe,</span><br><span class="line">    dispatch,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="applyMiddleware-js"><a href="#applyMiddleware-js" class="headerlink" title="applyMiddleware.js"></a>applyMiddleware.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">const applyMiddleware &#x3D; (...middlewares) &#x3D;&gt; &#123;</span><br><span class="line">  return createStore &#x3D;&gt; reducer &#x3D;&gt; &#123;</span><br><span class="line">    const store &#x3D; createStore(reducer);</span><br><span class="line">    let dispatch &#x3D; store.dispatch;</span><br><span class="line">    const midApi &#x3D; &#123;</span><br><span class="line">      getState: store.getState,</span><br><span class="line">      dispatch: (...arg) &#x3D;&gt; dispatch(...arg),</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 每一个中间件都接收 getState 和 dispatch 方法</span><br><span class="line">    const middlewareChain &#x3D; middlewares.map((mid) &#x3D;&gt; mid(midApi));</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 将中间件组合成一个函数进行调用</span><br><span class="line">    dispatch &#x3D; compose(...middlewareChain)(dispatch);</span><br><span class="line">    </span><br><span class="line">    return &#123;</span><br><span class="line">      ...store,</span><br><span class="line">      dispatch,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var compose &#x3D; (...mid) &#x3D;&gt; &#123;</span><br><span class="line">  if (mid.length &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">    &#x2F;&#x2F; 如果没有传入中间件，直接返回参数</span><br><span class="line">    return arg &#x3D;&gt; arg;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (mid.length &#x3D;&#x3D;&#x3D; 1) &#123;</span><br><span class="line">    &#x2F;&#x2F; 如果只有一个中间件，则直接返回</span><br><span class="line">    return mid[0]</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 将中间件聚合成 f1(f2(f3(args)) 形式并返回</span><br><span class="line">  return mid.reduce((l, r) &#x3D;&gt; (...args) &#x3D;&gt; l(r(...args)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="中间件日志记录和异步调用实现"><a href="#中间件日志记录和异步调用实现" class="headerlink" title="中间件日志记录和异步调用实现"></a>中间件日志记录和异步调用实现</h2><h3 id="thunk-js"><a href="#thunk-js" class="headerlink" title="thunk.js"></a>thunk.js</h3><p>进行异步调用时，我们这样分发 action： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch((dispatch) &#x3D;&gt; &#123;</span><br><span class="line">    setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">        dispatch(&#123;type: &#39;AsyncAdd&#39;&#125;);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const thunk &#x3D; (&#123; getState, dispatch &#125;) &#x3D;&gt;</span><br><span class="line"> (next) &#x3D;&gt; (action) &#x3D;&gt; &#123;</span><br><span class="line">   if (typeof action &#x3D;&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">     return action(dispatch, getState);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   return next(action);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="logger-js"><a href="#logger-js" class="headerlink" title="logger.js"></a>logger.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const logger &#x3D; (&#123; getState &#125;) &#x3D;&gt; &#123;</span><br><span class="line">  return (next) &#x3D;&gt; (action) &#x3D;&gt; &#123;</span><br><span class="line">      const state &#x3D; getState();</span><br><span class="line">      console.log(&#39;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#39;);</span><br><span class="line">      console.log(&#39;preState&#39;, state);</span><br><span class="line">      console.log(&#39;action&#39;, action);</span><br><span class="line">      next(action);</span><br><span class="line">      const curState &#x3D; getState();</span><br><span class="line">      console.log(&#39;curState&#39;, curState);</span><br><span class="line">      console.log(&#39;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/reduxjs/redux" >redux官方实现<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：实现一个redux</li>
+        <li>Post author：无骛</li>
+        <li>Create time：2021-01-03 19:55:02</li>
+        <li>
+            Post link：/single-minded/2021/01/03/实现一个redux/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/single-minded/2021/01/01/%E6%89%8B%E5%86%99loader/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">手写 loader</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center" >
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        let __gitalk__pathname = decodeURI(location.pathname);
+        const __gitalk__pathnameLength = __gitalk__pathname.length;
+        const __gitalk__pathnameMaxLength = 50;
+        if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+            __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+        }
+        const gitalk = new Gitalk({
+            clientID: '8d8af87b5ff517e514b2',
+            clientSecret: '96108e1b547154d5eea0033e38127b08acc5aeb9',
+            repo: 'single-minded-comments',
+            owner: 'huangwenjuning',
+            admin: ['huangwenjuning'],
+            id: __gitalk__pathname,
+            language: 'zh-Hans'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                    
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span> -
+            
+            2021 <i class="fas fa-heart icon-animate"></i> <a href="/">无骛</a>
+        </div>
+        
+            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count <span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+    </ul>
+</div>
+
+    </div>
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-top flex-center">
+            <i class="fas fa-arrow-up"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="tools-ul-1">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+    </ul>
+</div>
+
+    </div>
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redux-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">redux 工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0redux"><span class="nav-number">3.</span> <span class="nav-text">实现redux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#createStore-js"><span class="nav-number">3.1.</span> <span class="nav-text">createStore.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#applyMiddleware-js"><span class="nav-number">3.2.</span> <span class="nav-text">applyMiddleware.js</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E5%92%8C%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">中间件日志记录和异步调用实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#thunk-js"><span class="nav-number">4.1.</span> <span class="nav-text">thunk.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logger-js"><span class="nav-number">4.2.</span> <span class="nav-text">logger.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+    <!-- image viewer -->
+    <div class="image-viewer-container">
+    <div class="img-box">
+        <img src="">
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/left-side-toggle.js"></script>
+
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/code-copy.js"></script>
+    
+
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/toc.js"></script>
+    
+
+
+</body>
+</html>
