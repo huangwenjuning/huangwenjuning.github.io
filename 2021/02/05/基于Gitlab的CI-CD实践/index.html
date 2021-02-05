@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+        基于Gitlab的CI/CD实践 |
+        
+        Single-Minded&#39;s Blog
+    </title>
+    <link rel="shortcut icon" href="/single-minded/images/logo.svg">
+    
+<link rel="stylesheet" href="/single-minded/css/style.css">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"agangxuezhang.cn","root":"/single-minded/"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.png","favicon":"/images/logo.svg","img_position":"left","left_side_width":"260px","content_max_width":"900px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"../images/bg.jpg","description":"她呀，脸爱红。"}},"local_search":{"enable":false,"trigger":"auto","unescape":false,"preload":false},"version":"3.0.4"};
+    KEEP.language = {"search":"Search...","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"Powered by %s","theme":"Theme","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","tagcloud":"Tag Cloud","comment":"Comment","home":"Home","archive":"Archive","archives":"Archives","about":"About","site_uv":"Visitor Count","site_pv":"Totalview","links":"Links","link":"Link","top":"TOP","read_more":"Read more","wordcount":"Words","min2read":"Mins","changelog":"Changelog","copyright":{"author":"Post author","title":"Post title","link":"Post link","create_time":"Create time","license_title":"Copyright Notice","license_content":"All articles in this blog are licensed under %s unless stating additionally."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"}};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+        <a class="logo-title" href="/single-minded/">
+            Single-Minded&#39;s Blog
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/"
+                    >
+                        HOME
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/categories"
+                    >
+                        CATEGORIES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/single-minded/tags"
+                    >
+                        TAGS
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/categories">CATEGORIES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/single-minded/tags">TAGS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">基于Gitlab的CI/CD实践</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/single-minded/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>无骛</span>
+                        <span class="level">Lv1</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-calendar"></i> 2021-02-05 18:23:06
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/single-minded/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i> <span>1.6k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i> <span>6 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i> <span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="什么是-Gitlab-CI-CD"><a href="#什么是-Gitlab-CI-CD" class="headerlink" title="什么是 Gitlab CI/CD"></a>什么是 Gitlab CI/CD</h2><p>持续集成 CI（Continuous Integration）：在源代码变更后，触发自动检测、构建和测试的过程。在代码提交后，会自动进行构建和测试，并反馈结果。当结果符合预期时，再将代码集成到主干。持续集成的目标是快速确保当前变更是可用的。</p>
+<p>持续交付 CD（Continuous Delivery）:是基于持续集成基础上，将集成后的代码自动化部署到各个环境测试，确定可以发布生产版本。</p>
+<p>持续部署 CD（Continuous Deployment）:是基于持续交付的基础上，将在各个环境经过测试的应用自动化部署到生产环境。其实各个环境的发布过程都是一样的。应用发布到生产环境后，我们需要对应用进行健康检查、添加应用的监控项、 应用日志管理。</p>
+<p>我们先来看一看没有自动化的项目开发部署的流程：</p>
+<pre><code>首先是开发人员完成代码开发
+然后进行代码构建
+构建完成后打包静态文件
+将打包后的文件上传到发布服务器中，填写相关信息进行发布</code></pre>
+<p>我们会发现，每次的发布部署都需要重复的进行上述操作，而 CI/CD 的理念就是将这一重复性操作进行自动化处理。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/14ccaf319024613eb644373089e31a3c.png" alt="image.png"></p>
+<p>如上图所示，在提交代码到 gitlab 中时，满足指定条件时，就会触发 pipeline 进行代码的自动构建、测试和发布。</p>
+<h2 id="Gitlab-CI-CD-整体流程"><a href="#Gitlab-CI-CD-整体流程" class="headerlink" title="Gitlab CI/CD 整体流程"></a>Gitlab CI/CD 整体流程</h2><p>gitlab-ci 的 Pipline 具体流程和操作，是在项目根目录下的 .gitlab-ci.yml 文件中配置声明的。触发 Pipline 运行之后，gitlab-runner 会根据配置的 .gitlab-ci.yml 文件进行执行，执行结果会显示在 gitlab 中。</p>
+<p>.gitlab-ci.yml：用于定义 CI/CD 流程分为几个阶段，每个阶段需要执行哪些任务</p>
+<p>gitlab-runner:  是 CI 的执行环境</p>
+<h3 id="gitlab-ci-yml-配置说明"><a href="#gitlab-ci-yml-配置说明" class="headerlink" title=".gitlab-ci.yml 配置说明"></a>.gitlab-ci.yml 配置说明</h3><table>
+<thead>
+<tr>
+<th>KEYWORD</th>
+<th>REQUIRED</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>script</td>
+<td>yes</td>
+<td>CI/CD 过程需要执行的shell脚本</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>no</td>
+<td>一个job流程,默认<code>test</code></td>
+</tr>
+<tr>
+<td>variables</td>
+<td>no</td>
+<td>定义变量</td>
+</tr>
+<tr>
+<td>only</td>
+<td>no</td>
+<td>指定当前job适用的git refs(分支、Tag)列表</td>
+</tr>
+<tr>
+<td>except</td>
+<td>no</td>
+<td>与only相反</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>no</td>
+<td>通过标签管理或匹配runner</td>
+</tr>
+<tr>
+<td>allow_failure</td>
+<td>no</td>
+<td>指定当前job是否容错，正常job失败会跳过后续job流程</td>
+</tr>
+<tr>
+<td>before_script</td>
+<td>no</td>
+<td>在当前job执行前执行的shell脚本</td>
+</tr>
+<tr>
+<td>after_script</td>
+<td>no</td>
+<td>在当前job执行后执行的shell脚本</td>
+</tr>
+<tr>
+<td>when</td>
+<td>no</td>
+<td>依赖的上一个job执行什么状态后执行当前job， <code>on_success</code> <code>on_failure</code> <code>always</code> <code>manual</code> 默认<code>on_success</code></td>
+</tr>
+<tr>
+<td>dependencies</td>
+<td>no</td>
+<td>指定依赖的job列表，默认顺序执行</td>
+</tr>
+</tbody></table>
+<h3 id="gitlab-runner"><a href="#gitlab-runner" class="headerlink" title="gitlab-runner"></a>gitlab-runner</h3><ul>
+<li>Runner是一个执行任务的进程。</li>
+<li>Runner可以放在不同的用户、服务器，甚至本地机器上。</li>
+<li>每个Runner可以处于以下状态中的其中一种：</li>
+</ul>
+<blockquote>
+<ul>
+<li><code>active</code> Runner已启用，随时可以处理新作业</li>
+<li><code>paused</code> Runner已暂停，暂时不会接受新的作业</li>
+</ul>
+</blockquote>
+<ul>
+<li>要开始使用作业，可以向项目添加特定的运行器或使用共享的运行器。</li>
+<li>可以设置 <code>专用Runner</code> 、 <code>共享Runner</code> 、 <code>群组Runner</code> 。</li>
+</ul>
+<p>Shared Runner是所有项目都可以使用的，而Specific Runner只能针对特定项目运行。</p>
+<p>Shared Runner默认基于Docker运行，没有提前装配的执行Pipeline的环境，例如Node等。而Specific Runner你可以自由选择平台，可以是各种类型的机器，如Linux/Windows等，并在上面装配必需的运行环境，当然也可以选择Docker/Kubernetes等。</p>
+<ul>
+<li>手动设置专用Runner的步骤：</li>
+</ul>
+<blockquote>
+<ul>
+<li>安装 GitLab Runner</li>
+<li>在Runner设置时指定URL</li>
+<li>在Runner设置时使用注册令牌</li>
+<li>启动Runner</li>
+</ul>
+</blockquote>
+<ul>
+<li>GiTLab Runner就是运行器，类似于Jenkins，可以为我们执行一些CI持续集成、构建的脚本任务，运行器具有执行脚本、调度、协调的工作能力。</li>
+</ul>
+<h2 id="Gitlab-CI-CD-实践"><a href="#Gitlab-CI-CD-实践" class="headerlink" title="Gitlab CI/CD 实践"></a>Gitlab CI/CD 实践</h2><h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>我们在 gitlab 仓库中新建一个项目用于测试</p>
+<h3 id="gitlab-runner-配置-——-当前采用-docker-环境"><a href="#gitlab-runner-配置-——-当前采用-docker-环境" class="headerlink" title="gitlab-runner 配置 —— 当前采用 docker 环境"></a>gitlab-runner 配置 —— 当前采用 docker 环境</h3><p>1） 拉取 gitlab-runner 镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab&#x2F;gitlab-runner:latest</span><br></pre></td></tr></table></figure>
+<p>2）启动 gitlab-runner</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner --restart always \  -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \  -v &#x2F;srv&#x2F;gitlab-runner&#x2F;config:&#x2F;etc&#x2F;gitlab-runner \  gitlab&#x2F;gitlab-runner:latest</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>注册 gitlab-runner</li>
+</ol>
+<p>在进行注册前，需进入 gitlab 项目中 ——&gt;  settings ——&gt; CI/CD ——&gt; Runner 中获取 url 及 token。（此处配置专用 runner）</p>
+<p>注意：gitlab 项目的 CI/CD 需要具有管理员权限才可以进行配置。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b8d4408b0f8697054d5a7c90201f450e.png" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-runner register</span><br></pre></td></tr></table></figure>
+<p>执行命令后，会提示输入内容 url、token 描述及其他信息，我们按照实际配置即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# gitlab-runner register</span><br><span class="line">Runtime platform                                    arch&#x3D;amd64 os&#x3D;linux pid&#x3D;25074 revision&#x3D;3001a600 version&#x3D;11.10.0</span><br><span class="line">Running in system-mode.</span><br><span class="line"></span><br><span class="line">Please enter the gitlab-ci coordinator URL (e.g. https:&#x2F;&#x2F;gitlab.com&#x2F;):</span><br><span class="line">http:&#x2F;&#x2F;gitlab.com&#x2F;</span><br><span class="line">Please enter the gitlab-ci token for this runner:</span><br><span class="line">any_hDMpZ8W4yMLwMJV1</span><br><span class="line">Please enter the gitlab-ci description for this runner:</span><br><span class="line">[server.hopewait]: project runner</span><br><span class="line">Please enter the gitlab-ci tags for this runner (comma separated):</span><br><span class="line">test-project-tag</span><br><span class="line">Registering runner... succeeded                     runner&#x3D;any_hDMp</span><br><span class="line">Please enter the executor: docker, docker-ssh+machine, kubernetes, docker-ssh, parallels, shell, ssh, virtualbox, docker+machine:</span><br><span class="line">docker</span><br><span class="line">Runner registered successfully. Feel free to start it, but if it&#39;s running already the config should be automatically reloaded!</span><br><span class="line">[root@server ~]#</span><br></pre></td></tr></table></figure>
+<p>启动成功之后，可在项目 runner 配置处看到：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1773e256bd4357cf0f66e6f5c2f37c22.png" alt="image.png"></p>
+<p>一些相关命令：</p>
+<p>gitlab-runner verify  —— 检查 gitlab-runner 运行情况</p>
+<p>gitlab-runner start —— 开启 gitlab-runner</p>
+<p>gitlab-runner stop —— 关闭 gitlab-runner</p>
+<p>gitlab-runner –version —— 查看 gitlab-runner 信息</p>
+<h3 id="gitlab-ci-yml-配置"><a href="#gitlab-ci-yml-配置" class="headerlink" title=".gitlab-ci.yml 配置"></a>.gitlab-ci.yml 配置</h3><p>我们在项目根目录下，新建文件 .gitlab-ci.yml。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">image: node:latest</span><br><span class="line"></span><br><span class="line"># 设置缓存</span><br><span class="line">cache:</span><br><span class="line">  paths:</span><br><span class="line">    - build&#x2F;</span><br><span class="line">    - node_modules&#x2F;</span><br><span class="line"></span><br><span class="line"># 定义 stages</span><br><span class="line">stages:</span><br><span class="line">  - install</span><br><span class="line">  - eslint</span><br><span class="line">  - build</span><br><span class="line">  - deploy</span><br><span class="line"></span><br><span class="line"># 定义 job： </span><br><span class="line">intall:</span><br><span class="line">  stage: install</span><br><span class="line">  script:</span><br><span class="line">    - yarn</span><br><span class="line"></span><br><span class="line"># 定义 job： 进行代码格式化和lint检查</span><br><span class="line">eslint:</span><br><span class="line">  stage: eslint</span><br><span class="line">  script:</span><br><span class="line">    - yarn lint</span><br><span class="line"></span><br><span class="line"># 定义 job：build 阶段</span><br><span class="line">build:</span><br><span class="line">  stage: build</span><br><span class="line">  script:</span><br><span class="line">    - yarn build</span><br><span class="line">    - echo &quot;build success...&quot;</span><br><span class="line"></span><br><span class="line"># 定义 job：部署阶段，把刚才bulid阶段生成的代码，部署到服务器上</span><br><span class="line">deploy:</span><br><span class="line">  stage: deploy</span><br><span class="line">  before_script:</span><br><span class="line">    - eval $(ssh-agent -s)</span><br><span class="line">    # $SSH_PRIVATE_KEY 在 gitlab CI&#x2F;CD 中配置</span><br><span class="line">    - echo &quot;$SSH_PRIVATE_KEY&quot; | ssh-add - &gt; ~&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">    # 创建~&#x2F;.ssh目录，并配置权限(非root运行的runner)</span><br><span class="line">    - mkdir -p ~&#x2F;.ssh</span><br><span class="line">    - chmod 700 ~&#x2F;.ssh</span><br><span class="line">  script:</span><br><span class="line">    - chmod a+x .&#x2F;deploy.sh</span><br><span class="line">    - sh .&#x2F;deploy.sh</span><br></pre></td></tr></table></figure>
+<p>./deploy.sh </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">rsync -avz --delete dist&#x2F;* root@10.0.0.xxx:&#x2F;home&#x2F;project&#x2F;dist</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>在 CI/CD 中，我们点击 CI Lint， 可检查脚本配置是否正确。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b6be2e7dac7f8f58b35ac4402494ddf7.png" alt="image.png"></p>
+<p>编写完成之后，提交代码，触发 Pipline。</p>
+<p>其他更深入的经验后续再补充啦~~~</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：基于Gitlab的CI/CD实践</li>
+        <li>Post author：无骛</li>
+        <li>Create time：2021-02-05 18:23:06</li>
+        <li>
+            Post link：/single-minded/2021/02/05/基于Gitlab的CI-CD实践/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/single-minded/2021/01/03/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAredux/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">实现一个redux</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center" >
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        let __gitalk__pathname = decodeURI(location.pathname);
+        const __gitalk__pathnameLength = __gitalk__pathname.length;
+        const __gitalk__pathnameMaxLength = 50;
+        if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+            __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+        }
+        const gitalk = new Gitalk({
+            clientID: '8d8af87b5ff517e514b2',
+            clientSecret: '96108e1b547154d5eea0033e38127b08acc5aeb9',
+            repo: 'single-minded-comments',
+            owner: 'huangwenjuning',
+            admin: ['huangwenjuning'],
+            id: __gitalk__pathname,
+            language: 'zh-Hans'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                    
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span> -
+            
+            2021 <i class="fas fa-heart icon-animate"></i> <a href="/">无骛</a>
+        </div>
+        
+            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count <span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+    </ul>
+</div>
+
+    </div>
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-top flex-center">
+            <i class="fas fa-arrow-up"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="tools-ul-1">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+    </ul>
+</div>
+
+    </div>
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Gitlab-CI-CD"><span class="nav-number">1.</span> <span class="nav-text">什么是 Gitlab CI&#x2F;CD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gitlab-CI-CD-%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">Gitlab CI&#x2F;CD 整体流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gitlab-ci-yml-%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">.gitlab-ci.yml 配置说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitlab-runner"><span class="nav-number">2.2.</span> <span class="nav-text">gitlab-runner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gitlab-CI-CD-%E5%AE%9E%E8%B7%B5"><span class="nav-number">3.</span> <span class="nav-text">Gitlab CI&#x2F;CD 实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.1.</span> <span class="nav-text">新建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitlab-runner-%E9%85%8D%E7%BD%AE-%E2%80%94%E2%80%94-%E5%BD%93%E5%89%8D%E9%87%87%E7%94%A8-docker-%E7%8E%AF%E5%A2%83"><span class="nav-number">3.2.</span> <span class="nav-text">gitlab-runner 配置 —— 当前采用 docker 环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitlab-ci-yml-%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text">.gitlab-ci.yml 配置</span></a></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+    <!-- image viewer -->
+    <div class="image-viewer-container">
+    <div class="img-box">
+        <img src="">
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/left-side-toggle.js"></script>
+
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/code-copy.js"></script>
+    
+
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.0.4/source/js/toc.js"></script>
+    
+
+
+</body>
+</html>
